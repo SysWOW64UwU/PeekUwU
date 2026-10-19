@@ -1,0 +1,373 @@
+:root {
+    color-scheme: light dark;
+    --accent: #ff4500;
+    --bg: #ffffff;
+    --bg-hover: #f6f7f8;
+    --border: #e3e5e6;
+    --text: #1a1a1b;
+    --text-muted: #787c7e;
+    --text-faint: #9a9ea0;
+    --track-off: #ced0d2;
+    --knob: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --bg: #161617;
+        --bg-hover: #1e1f20;
+        --border: #2a2b2c;
+        --text: #d7dadc;
+        --text-muted: #818384;
+        --text-faint: #6b6d6f;
+        --track-off: #3a3b3c;
+        --knob: #f6f7f8;
+    }
+}
+
+body[data-theme="light"] {
+    color-scheme: light;
+    --bg: #ffffff;
+    --bg-hover: #f6f7f8;
+    --border: #e3e5e6;
+    --text: #1a1a1b;
+    --text-muted: #787c7e;
+    --text-faint: #9a9ea0;
+    --track-off: #ced0d2;
+    --knob: #ffffff;
+}
+
+body[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #161617;
+    --bg-hover: #1e1f20;
+    --border: #2a2b2c;
+    --text: #d7dadc;
+    --text-muted: #818384;
+    --text-faint: #6b6d6f;
+    --track-off: #3a3b3c;
+    --knob: #f6f7f8;
+}
+
+body {
+    width: 320px;
+    margin: 0;
+    padding: 14px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.35;
+    transition: background 150ms ease, color 150ms ease;
+}
+
+.panel-logo {
+    margin: 2px 0 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-logo img {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+}
+
+.panel-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    text-align: center;
+}
+
+.header-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+}
+
+.header-button:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+}
+
+.header-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.header-button.is-active {
+    color: var(--accent);
+}
+
+.header-button.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.about-button {
+    left: 0;
+}
+
+.theme-button {
+    right: 0;
+}
+
+.button-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.icon-sun,
+.icon-moon,
+.icon-auto {
+    display: none;
+}
+
+/* Manual mode: the icon previews the NEXT theme in the cycle. */
+body[data-follow="false"][data-theme-choice="system"] .icon-sun,
+body[data-follow="false"][data-theme-choice="light"] .icon-moon,
+body[data-follow="false"][data-theme-choice="dark"] .icon-auto {
+    display: block;
+}
+
+/* Following Reddit: the button is inert, so the icon shows the theme in effect. */
+body[data-follow="true"][data-theme-choice="system"] .icon-auto,
+body[data-follow="true"][data-theme-choice="light"] .icon-sun,
+body[data-follow="true"][data-theme-choice="dark"] .icon-moon {
+    display: block;
+}
+
+.about-panel {
+    padding: 10px 8px 4px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+}
+
+.about-description {
+    margin: 0 0 6px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--text-muted);
+}
+
+.about-author {
+    margin: 0;
+    font-size: 10.5px;
+    color: var(--text-faint);
+}
+
+.about-author a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.about-author a:hover {
+    text-decoration: underline;
+}
+
+.about-sep {
+    margin: 0 2px;
+}
+
+.panel-rows {
+    padding: 6px 0;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 120ms ease;
+}
+
+.toggle-row:hover {
+    background: var(--bg-hover);
+}
+
+.toggle-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.toggle-label {
+    font-weight: 500;
+}
+
+.toggle-hint {
+    font-size: 10.5px;
+    color: var(--text-muted);
+}
+
+.toggle-row input {
+    position: absolute;
+    opacity: 0;
+    width: 36px;
+    height: 20px;
+    margin: 0;
+}
+
+.toggle-track {
+    position: relative;
+    flex-shrink: 0;
+    width: 36px;
+    height: 20px;
+    border-radius: 999px;
+    background: var(--track-off);
+    transition: background 150ms ease;
+}
+
+.toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--knob);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    transition: transform 150ms ease;
+}
+
+input:checked + .toggle-track {
+    background: var(--accent);
+}
+
+input:checked + .toggle-track .toggle-knob {
+    transform: translateX(16px);
+}
+
+input:focus-visible + .toggle-track {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.panel-debug {
+    margin-top: 8px;
+    padding: 7px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-hover);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.panel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-faint);
+}
+
+.footer-source {
+    color: var(--text-faint);
+    text-decoration: none;
+}
+
+.footer-source:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.footer-version {
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-platform="android"] {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 18px 16px 24px;
+    font-size: 15px;
+}
+
+body[data-platform="android"] .panel-header {
+    padding-bottom: 14px;
+}
+
+body[data-platform="android"] .header-button {
+    width: 44px;
+    height: 44px;
+}
+
+body[data-platform="android"] .panel-title {
+    font-size: 20px;
+}
+
+body[data-platform="android"] .panel-logo {
+    margin: 4px 0 14px;
+}
+
+body[data-platform="android"] .panel-logo img {
+    width: 168px;
+    height: 168px;
+}
+
+body[data-platform="android"] .toggle-row {
+    padding: 14px 8px;
+}
+
+body[data-platform="android"] .toggle-label {
+    font-size: 15px;
+}
+
+body[data-platform="android"] .toggle-hint {
+    font-size: 12.5px;
+}
+
+body[data-platform="android"] .toggle-track {
+    width: 52px;
+    height: 30px;
+}
+
+body[data-platform="android"] .toggle-knob {
+    width: 24px;
+    height: 24px;
+}
+
+body[data-platform="android"] input:checked + .toggle-track .toggle-knob {
+    transform: translateX(22px);
+}
+
+body[data-platform="android"] .about-description,
+body[data-platform="android"] .about-author {
+    font-size: 13.5px;
+}
+
+body[data-platform="android"] .panel-footer {
+    font-size: 12px;
+}

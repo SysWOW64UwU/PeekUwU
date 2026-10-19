@@ -1,0 +1,46 @@
+{
+    "name": "PeekUwU",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "description": "Removes Reddit's NSFW login walls, blur overlays and blocking modals, so nothing stands between you and the content.",
+    "icons": {
+        "16": "src/icon/icon16.png",
+        "32": "src/icon/icon32.png",
+        "48": "src/icon/icon48.png",
+        "128": "src/icon/icon128.png"
+    },
+    "action": {
+        "default_popup": "src/popup/popup.html",
+        "default_title": "PeekUwU",
+        "default_icon": {
+            "16": "src/icon/icon16.png",
+            "32": "src/icon/icon32.png",
+            "48": "src/icon/icon48.png"
+        }
+    },
+    "permissions": ["storage", "browserSettings", "scripting", "activeTab"],
+    "content_scripts": [
+        {
+            "run_at": "document_start",
+            "matches": [
+                "*://*.reddit.com/*"
+            ],
+            "js": ["src/js/uncensor.js"]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "peekuwu@syswow64uwu.github.io",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ]
+            },
+            "strict_min_version": "140.0",
+            "update_url": "https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/updates.json"
+        },
+        "gecko_android": {
+            "strict_min_version": "142.0"
+        }
+    }
+}

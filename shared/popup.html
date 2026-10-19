@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>PeekUwU</title>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body>
+        <header class="panel-header">
+            <button id="about-toggle" class="header-button about-button" type="button" title="About" aria-label="About" aria-expanded="false" aria-controls="about-panel">
+                <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </button>
+            <h1 class="panel-title">PeekUwU</h1>
+            <button id="theme-toggle" class="header-button theme-button" type="button" title="Toggle dark / light mode" aria-label="Toggle dark / light mode">
+                <svg class="button-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg class="button-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+                </svg>
+                <svg class="button-icon icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 3v18a9 9 0 0 0 0-18z" fill="currentColor" stroke="none"></path>
+                </svg>
+            </button>
+        </header>
+
+        <section id="about-panel" class="about-panel" hidden>
+            <p class="about-description">
+                Removes Reddit's NSFW login walls, blur overlays and blocking modals, so nothing stands between you and the content.
+            </p>
+            <p class="about-author">
+                Author: SysWOW64
+                <span class="about-sep">·</span>
+                <a href="https://t.me/C3R741NLY_1MPR3551V3" target="_blank" rel="noopener">Telegram</a>
+                <span class="about-sep">·</span>
+                <a href="https://github.com/SysWOW64UwU/" target="_blank" rel="noopener">GitHub</a>
+                <span class="about-sep">·</span>
+                <a href="__REPO_URL__/releases" target="_blank" rel="noopener">Releases</a>
+            </p>
+        </section>
+
+        <div class="panel-logo">
+            <img src="../icon/ExtensionLogo.svg" alt="" width="150" height="150" />
+        </div>
+
+        <div class="panel-rows">
+            <label class="toggle-row" for="toggle-enabled">
+                <span class="toggle-text">
+                    <span class="toggle-label">Uncensor content</span>
+                    <span class="toggle-hint">Remove blocks, blur &amp; popups</span>
+                </span>
+                <input type="checkbox" id="toggle-enabled" role="switch" />
+                <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+            </label>
+
+            <label class="toggle-row" for="toggle-ads">
+                <span class="toggle-text">
+                    <span class="toggle-label">Remove ads</span>
+                    <span class="toggle-hint">Hide promoted posts</span>
+                </span>
+                <input type="checkbox" id="toggle-ads" role="switch" />
+                <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+            </label>
+
+            <label class="toggle-row" for="toggle-autorefresh" id="row-autorefresh">
+                <span class="toggle-text">
+                    <span class="toggle-label">Auto refresh page on toggles</span>
+                    <span class="toggle-hint">Reload the tab when switches change (Recommended)</span>
+                </span>
+                <input type="checkbox" id="toggle-autorefresh" role="switch" />
+                <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+            </label>
+
+            <label class="toggle-row" for="toggle-follow-theme">
+                <span class="toggle-text">
+                    <span class="toggle-label">Extension UI follows Reddit theme</span>
+                    <span class="toggle-hint" id="follow-theme-hint">Match Reddit's light/dark setting</span>
+                </span>
+                <input type="checkbox" id="toggle-follow-theme" role="switch" />
+                <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+            </label>
+        </div>
+
+        <div class="panel-debug" id="panel-debug" hidden></div>
+
+        <footer class="panel-footer">
+            <a class="footer-source" href="__REPO_URL__" target="_blank" rel="noopener">Source Code</a>
+            <span class="footer-version">v__VERSION__</span>
+        </footer>
+
+        <script src="popup.js"></script>
+    </body>
+</html>
