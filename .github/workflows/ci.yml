@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check the project is fully uploaded
+        run: node scripts/preflight.js
+
+      - name: Build all variants
+        run: node build.js
+
+      - name: Verify build output
+        run: node scripts/verify-build.js
