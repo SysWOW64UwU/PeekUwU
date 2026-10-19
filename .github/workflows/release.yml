@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: Mark as a prerelease (not served by releases/latest/download)
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  release:
+    name: Build, sign and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Check the project is fully uploaded
+        run: node scripts/preflight.js
+
+      - name: Read the version from build.js
+        id: version
+        run: echo "value=$(node -p "require('./build.js').VERSION")" >> "$GITHUB_OUTPUT"
+
+      - name: Refuse to republish an existing version
+        run: |
+          if gh release view "v${{ steps.version.outputs.value }}" >/dev/null 2>&1; then
+            echo "::error::Release v${{ steps.version.outputs.value }} already exists."
+            echo "AMO also rejects a version it has already signed, and versions can never go backwards."
+            echo "Bump VERSION in build.js, commit, then run this workflow again."
+            exit 1
+          fi
+
+      - name: Build all variants
+        run: node build.js
+
+      - name: Verify build output
+        run: node scripts/verify-build.js
+
+      - name: Package the Chrome extension as PeekUwU.zip
+        run: |
+          mkdir -p artifacts/PeekUwU
+          cp -r dist/chrome/. artifacts/PeekUwU/
+          (cd artifacts && zip -r PeekUwU.zip PeekUwU)
+          rm -rf artifacts/PeekUwU
+
+      - name: Confirm the zip is the Chrome variant
+        run: node scripts/verify-zip.js artifacts/PeekUwU.zip dist/chrome PeekUwU
+
+      - name: Sign the Firefox extension via AMO (unlisted, no human review)
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          npx --yes web-ext@10 sign \
+            --source-dir=dist/firefox \
+            --channel=unlisted \
+            --api-key="$AMO_JWT_ISSUER" \
+            --api-secret="$AMO_JWT_SECRET" \
+            --artifacts-dir=artifacts \
+            --approval-timeout=1800000 \
+            --no-input
+
+      - name: Rename the signed xpi
+        run: |
+          shopt -s nullglob
+          signed=(artifacts/*.xpi)
+          if [ ${#signed[@]} -ne 1 ]; then
+            echo "::error::Expected exactly 1 signed xpi, found ${#signed[@]}"
+            exit 1
+          fi
+          mv "${signed[0]}" artifacts/PeekUwU.xpi
+
+      - name: Confirm the xpi is the Firefox variant
+        run: node scripts/verify-build.js artifacts/PeekUwU.xpi
+
+      - name: Generate the Firefox update manifest
+        run: node scripts/make-updates.js --xpi artifacts/PeekUwU.xpi --out artifacts/updates.json
+
+      - name: Stage the userscript
+        run: cp dist/peekuwu.user.js artifacts/peekuwu.user.js
+
+      - name: Publish the release
+        env:
+          IS_PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          flags=""
+          if [ "$IS_PRERELEASE" = "true" ]; then
+            flags="--prerelease"
+          fi
+          gh release create "v${{ steps.version.outputs.value }}" \
+            artifacts/PeekUwU.zip \
+            artifacts/PeekUwU.xpi \
+            artifacts/peekuwu.user.js \
+            artifacts/updates.json \
+            --title "PeekUwU v${{ steps.version.outputs.value }}" \
+            --notes-file RELEASE_NOTES.md \
+            $flags
+
+      - name: Summarise
+        env:
+          IS_PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          {
+            echo "## Published v${{ steps.version.outputs.value }}"
+            echo ""
+            echo "| Asset | Who it is for |"
+            echo "| --- | --- |"
+            echo "| \`PeekUwU.zip\` | Chrome (extract, then Load unpacked) |"
+            echo "| \`PeekUwU.xpi\` | Firefox (double-click to install, updates itself) |"
+            echo "| \`peekuwu.user.js\` | Tampermonkey / Violentmonkey (updates itself) |"
+            echo "| \`updates.json\` | Firefox auto-update manifest, not for humans |"
+            echo ""
+            if [ "$IS_PRERELEASE" = "true" ]; then
+              echo "> Marked as a prerelease, so \`releases/latest/download\` still serves the last stable release."
+            else
+              echo "Auto-update endpoints are live: \`releases/latest/download/peekuwu.user.js\` and \`releases/latest/download/updates.json\`."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
