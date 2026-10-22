@@ -17,7 +17,10 @@ popups that block what you're trying to read. No account, no login, no waiting.
 <summary>
 <b>Watch PeekUwU in action!</b>
 </summary>
-<video src="./assets/PeekUwUDemo.mp4" controls autoplay loop playsinline>
+
+https://github.com/user-attachments/assets/124a8bf4-3319-419d-88c6-aea2201e1916
+
+
 </details>
 
 
