@@ -24,9 +24,9 @@ https://github.com/user-attachments/assets/124a8bf4-3319-419d-88c6-aea2201e1916
 </details>
 
 
-[**⬇ Chrome**](https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/PeekUwU.zip) ·
+<!--  [**⬇ Chrome**](https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/PeekUwU.zip) ·
 [**⬇ Firefox**](https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/PeekUwU.xpi) ·
-[**⬇ Userscript**](https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/peekuwu.user.js)
+[**⬇ Userscript**](https://github.com/SysWOW64UwU/PeekUwU/releases/latest/download/peekuwu.user.js) -->
 
 <!-- </div> -->
 
