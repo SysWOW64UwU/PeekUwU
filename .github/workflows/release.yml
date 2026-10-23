@@ -53,6 +53,7 @@ jobs:
           mkdir -p artifacts/PeekUwU
           cp -r dist/chrome/. artifacts/PeekUwU/
           (cd artifacts && zip -r PeekUwU.zip PeekUwU)
+          printf 'v%s\n' "${{ steps.version.outputs.value }}" | zip -z artifacts/PeekUwU.zip
           rm -rf artifacts/PeekUwU
 
       - name: Confirm the zip is the Chrome variant
