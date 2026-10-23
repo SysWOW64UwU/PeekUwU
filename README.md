@@ -187,7 +187,7 @@ computer — see [Installing on Firefox for Android](#installing-on-firefox-for-
 
 **Does it ask for scary permissions?**<br>
 Very few, and no blanket access to your browsing. PeekUwU shows one permission
-warnings about reading a browser setting — PeekUwU only *reads*
+warning about reading a browser setting — it only *reads*
 that setting to match your colours, it never writes to it.
 
 **Something not working?**<br>

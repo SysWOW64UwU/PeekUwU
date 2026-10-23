@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const REPO_URL = "https://github.com/SysWOW64UwU/PeekUwU";
 const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");

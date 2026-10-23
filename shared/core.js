@@ -1,7 +1,7 @@
 (function (root) {
     "use strict";
 
-const XPROMO_IDS = [
+    const XPROMO_IDS = [
         "configured-xpromo-blocking_xpromo_nsfw_blocking",
         "configured-xpromo-blocking_xpromo_nsfw_blocking_desktop",
         "configured-xpromo-mweb3x_feeds_blocking_xpromo_lo_page_fade",
@@ -132,6 +132,7 @@ const XPROMO_IDS = [
         function removeAdPosts() {
             document.querySelectorAll("shreddit-ad-post").forEach((ad) => ad.remove());
             document.querySelectorAll("shreddit-comments-page-ad").forEach((adc) => adc.remove());
+            document.querySelectorAll("ad-event-tracker").forEach((adet) => {(adet.closest("li") || adet).remove();});
         }
 
         function writeOver18Cookie(value) {

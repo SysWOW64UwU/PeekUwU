@@ -1,6 +1,6 @@
-**PeekUwU 1.0.0 — first stable release.**
+**PeekUwU 1.0.1**
 
-No account, no more forced login walls, no blur. PeekUwU removes annoying popups about mature content and unblurs public posts that are blurred by Reddit.
+- minor ad-blocking improvement
 
 **What to download**
 
@@ -8,5 +8,7 @@ No account, no more forced login walls, no blur. PeekUwU removes annoying popups
 - `PeekUwU.xpi` — For Firefox Desktop and Android
 - `peekuwu.user.js` — For Tampermonkey / Violentmonkey
 
-Thanks for trying it. Bug reports are welcome in
-[issues](https://github.com/SysWOW64UwU/PeekUwU/issues).
+Thanks for trying out PeekUwU. Bug reports are welcome in
+[issues](https://github.com/SysWOW64UwU/PeekUwU/issues).  
+
+Have feedback or suggestions? Feel free to comment on [this Telegram post](https://t.me/C3R741NLY_1MPR3551V3/598).

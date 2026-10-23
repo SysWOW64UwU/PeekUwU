@@ -677,6 +677,26 @@ check(
     "expected XPROMO_IDS.forEach with getElementById(...).remove()"
 );
 
+const AD_SELECTORS = ["shreddit-ad-post", "shreddit-comments-page-ad", "ad-event-tracker"];
+const adBody =
+    sharedCore.split("function removeAdPosts(")[1]?.split("function writeOver18Cookie(")[0] || "";
+const missingAds = AD_SELECTORS.filter((selector) => !adBody.includes(`"${selector}"`));
+check(
+    "removeAdPosts() drops every known ad element",
+    missingAds.length === 0,
+    `not removed by removeAdPosts(): ${missingAds.join(", ")}`
+);
+const adsGate = sharedCore.indexOf("if (settings.removeAds)");
+const enabledEarly = sharedCore.indexOf("if (!settings.enabled)");
+check(
+    "ad removal is gated by its own removeAds switch, above the enabled early return",
+    adsGate > -1 &&
+        enabledEarly > -1 &&
+        adsGate < enabledEarly &&
+        /if \(settings\.removeAds\) \{\s*removeAdPosts\(\);\s*\}/.test(sharedCore),
+    "expected if (settings.removeAds) { removeAdPosts(); } placed before if (!settings.enabled)"
+);
+
 function finish() {
     const total = passes + failures;
     console.log(`\n${passes}/${total} checks passed`);

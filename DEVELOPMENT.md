@@ -250,13 +250,13 @@ reload — they are display-only or self-applied.
 
 ```
 theme.sweep()
-removeAdPosts()                      ← before the early return
+if (settings.removeAds) { removeAdPosts(); }   ← its OWN toggle, runs above the early return
 if (!settings.enabled) {            ← EARLY RETURN
     writeOver18Cookie(""); removeStylesheetGuard(); return;
 }
 installStylesheetGuard()
 writeOver18Cookie("true")
-XPROMO_IDS.forEach(remove)          ← ad containers need explicit removal
+XPROMO_IDS.forEach(remove)          ← xpromo overlays need explicit removal
 document.body.classList.remove("rpl-scroll-lock")   ← unfreeze scroll
 revealBlurredContainers()
 enablePreviousNextArrowOnCarouselsMobile()
@@ -283,8 +283,11 @@ Reddit renames these without warning. When a new one appears, append the id to
 `XPROMO_IDS` **and** to `XPROMO_BLOCKERS` in `scripts/verify-build.js`; the verifier
 fails on a blocker that is not on the list, so the two cannot drift apart.
 
-Ad removal happens **before** the `enabled` early-return because ads are independent
-of the uncensor toggle. Everything else is skipped when disabled.
+Ad removal has its own switch: `settings.removeAds` (`SETTINGS_DEFAULTS` in `core.js`,
+default `true`). It is **independent of `enabled`** — two separate toggles, two separate
+behavioural consequences — so the call sits **before** the `enabled` early-return and
+still removes ads when uncensoring is off. Every other sweep step is skipped when
+disabled; ad removal is the one that is not.
 
 `writeOver18Cookie` writes Reddit's `over18` cookie. `removeStylesheetGuard()` must
 pair with `installStylesheetGuard()` or the CSS override leaks while disabled.
@@ -395,6 +398,20 @@ Run the **Release** workflow from the Actions tab after pushing:
 3. Sign Firefox via AMO unlisted → `PeekUwU.xpi`
 4. Generate `updates.json` (SHA-256 of the signed XPI)
 5. Publish all four assets
+
+**Release notes are a file, not a workflow input.** `RELEASE_NOTES.md` at the repo root
+is passed straight to `gh release create --notes-file` as a literal path in the
+`Publish the release` step, so the notes content never travels through an input, an
+environment variable or shell interpolation — only `IS_PRERELEASE` uses `env`.
+`preflight.js` fails the build if the file is missing or empty. The
+`workflow_dispatch` input box is a single-line control (see §9), so notes can never
+be entered there.
+
+**Tone: write for the person who installs PeekUwU, not for the person who wrote it.**
+Name the outcome, never the mechanism — no selectors, class names, function names or
+DOM structure. The user reads *"removed a new kind of promoted post"*; `ad-event-tracker`
+and `closest("li")` are maintainer details that mean nothing at install time. One
+`- ` bullet per change.
 
 **Bump `VERSION` before running it.** Versions cannot go backwards and AMO rejects a
 version it has already signed.
