@@ -6,6 +6,7 @@
         "configured-xpromo-blocking_xpromo_nsfw_blocking_desktop",
         "configured-xpromo-mweb3x_feeds_blocking_xpromo_lo_page_fade",
         "configured-xpromo-0c427757_d9ed_11f1_9811_ba007543fe41",
+        "configured-xpromo-0012ad91_d854_11f1_ad0b_d6137c69d48f",
     ];
 
     const SETTINGS_DEFAULTS = { enabled: true, removeAds: true };
