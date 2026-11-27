@@ -1,6 +1,6 @@
-**PeekUwU 1.0.1**
+**PeekUwU 1.0.2**
 
-- minor ad-blocking improvement
+- removes the new mature-content popup
 
 **What to download**
 
