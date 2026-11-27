@@ -1,6 +1,6 @@
-**PeekUwU 1.0.2**
+**PeekUwU 1.0.3**
 
-- removes the new mature-content popup
+- removes the new mature-content popup on Firefox Android
 
 **What to download**
 
